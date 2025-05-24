@@ -1,0 +1,42 @@
+{
+    "students" : [
+        {
+            "id" : "1",
+            "name" : "Lyhor",
+            "gender" : "Male",
+            "address"  : "Tbong Khmum"
+        },
+        {
+            "id" : "2",
+            "name" : "Sovann",
+            "gender" : "Male",
+            "address"  : "Kompong Thom"
+        },
+        {
+           "id" : "3",
+           "name" : "Makara",
+           "gender" : "Male",
+           "address"  : "Takev" 
+        },
+        {
+           "id" : "4",
+           "name" : "Khim",
+           "gender" : "Male",
+           "address"  : "Svay Rieng" 
+        },
+        {
+            "id" : "5",
+            "name" : "Sing",
+            "gender" : "Male",
+            "address"  : "Kondal" 
+         }
+    ],
+    "teachers"  : [
+        {
+            "id" : "1",
+            "name" : "Phument",
+            "gender" : "Male",
+            "address"  : "Kompong Thom"
+        }
+    ]
+}
