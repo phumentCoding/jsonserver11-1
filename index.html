@@ -18,6 +18,40 @@
             padding: 2rem 0;
         }
 
+        /* Navbar Styles from create.html */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 2rem;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: #667eea !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #764ba2 !important;
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            color: #764ba2 !important;
+            font-weight: 600;
+        }
+
         .header {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -81,6 +115,20 @@
             font-weight: 500;
         }
 
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+
         .student-id {
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
@@ -99,12 +147,23 @@
             font-size: 1.1rem;
         }
 
-        .student-name::before {
-            content: "👨‍🎓";
-            margin-right: 0.5rem;
+        .gender-badge {
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
         }
 
-        .gender-badge {
+        .gender-badge.male {
+            background: #007bff;
+        }
+
+        .gender-badge.female {
+            background: #e83e8c;
+        }
+
+        .grade-badge {
             background: #28a745;
             color: white;
             padding: 0.3rem 0.8rem;
@@ -113,19 +172,14 @@
             font-weight: 500;
         }
 
-        .gender-badge::before {
-            content: "♂️";
-            margin-right: 0.3rem;
+        .contact-info {
+            color: #666;
+            font-size: 0.9rem;
         }
 
         .address-text {
             color: #666;
             font-weight: 500;
-        }
-
-        .address-text::before {
-            content: "📍";
-            margin-right: 0.5rem;
         }
 
         .footer {
@@ -152,22 +206,6 @@
             border-radius: 15px;
             padding: 1rem;
             margin-bottom: 1rem;
-        }
-
-        .stat-item {
-            text-align: center;
-            color: white;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #667eea;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
         }
 
         /* Pagination Styles */
@@ -232,6 +270,10 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 1rem 0;
+            }
+            
             .table-responsive {
                 border-radius: 15px;
             }
@@ -255,39 +297,77 @@
                 font-size: 0.9rem;
             }
         }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-graduation-cap me-2"></i>
+                EduDash
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home me-1"></i>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-users me-1"></i>Students</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="create-student.html"><i class="fas fa-plus me-1"></i>Create</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-cog me-1"></i>Settings</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <!-- Header -->
-        <div class="header">
-            <h1><i class="fas fa-graduation-cap me-2"></i>Student Management System</h1>
+        <div class="header fade-in">
+            <h1><i class="fas fa-users me-2"></i>Student Management System</h1>
             <p class="text-muted mb-0">Complete student information database</p>
         </div>
 
         <!-- Statistics -->
-        <div class="stats-row">
+        <div class="stats-row fade-in">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 class="text-white">Student List</h4>
-                <a href="create.html" class="btn btn-success">
-                    <i class="fas fa-plus me-2"></i>Add more
+                <a href="create-student.html" class="btn btn-success">
+                    <i class="fas fa-plus me-2"></i>Add New Student
                 </a>
             </div>
         </div>
 
         <!-- Table Container -->
-        <div class="table-container">
+        <div class="table-container fade-in">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="pagination-info">
-                    Showing <span id="startRecord">1</span> to <span id="endRecord">3</span> of <span id="totalRecords">15</span> students
+                    Showing <span id="startRecord">1</span> to <span id="endRecord">5</span> of <span id="totalRecords">15</span> students
                 </div>
                 <div class="d-flex align-items-center">
                     <label for="rowsPerPage" class="me-2 text-muted">Show:</label>
                     <select id="rowsPerPage" class="rows-per-page">
-                        <option value="3">3</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="15">15</option>
+                        <option value="20">20</option>
                     </select>
                 </div>
             </div>
@@ -296,10 +376,11 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col"><i class="fas fa-hashtag me-2"></i>Student ID</th>
-                            <th scope="col"><i class="fas fa-user me-2"></i>Full Name</th>
-                            <th scope="col"><i class="fas fa-venus-mars me-2"></i>Gender</th>
-                            <th scope="col"><i class="fas fa-map-marker-alt me-2"></i>Address</th>
+                            <th scope="col"><i class="fas fa-hashtag me-2"></i>ID</th>
+                            <th scope="col"><i class="fas fa-user me-2"></i>Student</th>
+                            <th scope="col"><i class="fas fa-envelope me-2"></i>Contact</th>
+                            <th scope="col"><i class="fas fa-graduation-cap me-2"></i>Academic</th>
+                            <th scope="col"><i class="fas fa-map-marker-alt me-2"></i>Location</th>
                         </tr>
                     </thead>
                     <tbody id="studentTableBody">
@@ -345,28 +426,193 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Extended student data for demonstration
+        // Enhanced student data matching create form structure
         const studentsData = [
-            { id: "1", name: "Lyhor", gender: "Male", address: "Tbong Khmum" },
-            { id: "2", name: "Sovann", gender: "Male", address: "Kompong Thom" },
-            { id: "3", name: "Makara", gender: "Male", address: "Takev" },
-            { id: "4", name: "Khim", gender: "Male", address: "Svay Rieng" },
-            { id: "5", name: "Sing", gender: "Male", address: "Kondal" },
-            { id: "6", name: "Dara", gender: "Male", address: "Phnom Penh" },
-            { id: "7", name: "Sophea", gender: "Female", address: "Siem Reap" },
-            { id: "8", name: "Pisach", gender: "Male", address: "Battambang" },
-            { id: "9", name: "Chenda", gender: "Female", address: "Kampot" },
-            { id: "10", name: "Rithy", gender: "Male", address: "Kep" },
-            { id: "11", name: "Sreypov", gender: "Female", address: "Preah Vihear" },
-            { id: "12", name: "Bunthoeun", gender: "Male", address: "Pursat" },
-            { id: "13", name: "Channary", gender: "Female", address: "Prey Veng" },
-            { id: "14", name: "Virak", gender: "Male", address: "Ratanakiri" },
-            { id: "15", name: "Bopha", gender: "Female", address: "Stung Treng" }
+            {
+                id: "STU001",
+                firstName: "Lyhor",
+                lastName: "Chea",
+                email: "lyhor.chea@email.com",
+                phone: "+855 12 345 001",
+                gender: "Male",
+                grade: "Grade 10",
+                section: "Section A",
+                city: "Tbong Khmum",
+                academicYear: "2024-2025"
+            },
+            {
+                id: "STU002",
+                firstName: "Sovann",
+                lastName: "Kem",
+                email: "sovann.kem@email.com",
+                phone: "+855 12 345 002",
+                gender: "Male",
+                grade: "Grade 11",
+                section: "Section B",
+                city: "Kompong Thom",
+                academicYear: "2024-2025"
+            },
+            {
+                id: "STU003",
+                firstName: "Makara",
+                lastName: "Pich",
+                email: "makara.pich@email.com",
+                phone: "+855 12 345 003",
+                gender: "Male",
+                grade: "Grade 9",
+                section: "Section A",
+                city: "Takev",
+                academicYear: "2024-2025"
+            },
+            {
+                id: "STU004",
+                firstName: "Khim",
+                lastName: "Sao",
+                email: "khim.sao@email.com",
+                phone: "+855 12 345 004",
+                gender: "Male",
+                grade: "Grade 12",
+                section: "Section C",
+                city: "Svay Rieng",
+                academicYear: "2024-2025"
+            },
+            {
+                id: "STU005",
+                firstName: "Sing",
+                lastName: "Mao",
+                email: "sing.mao@email.com",
+                phone: "+855 12 345 005",
+                gender: "Male",
+                grade: "Grade 8",
+                section: "Section A",
+                city: "Kondal",
+                academicYear: "2024-2025"
+            },
+            {
+                id: "STU006",
+                firstName: "Dara",
+                lastName: "Sok",
+                email: "dara.sok@email.com",
+                phone: "+855 12 345 006",
+                gender: "Male",
+                grade: "Grade 10",
+                section: "Section B",
+                city: "Phnom Penh",
+                academicYear: "2024-2025"
+            },
+            {
+                id: "STU007",
+                firstName: "Sophea",
+                lastName: "Chan",
+                email: "sophea.chan@email.com",
+                phone: "+855 12 345 007",
+                gender: "Female",
+                grade: "Grade 11",
+                section: "Section A",
+                city: "Siem Reap",
+                academicYear: "2024-2025"
+            },
+            {
+                id: "STU008",
+                firstName: "Pisach",
+                lastName: "Lim",
+                email: "pisach.lim@email.com",
+                phone: "+855 12 345 008",
+                gender: "Male",
+                grade: "Grade 9",
+                section: "Section C",
+                city: "Battambang",
+                academicYear: "2024-2025"
+            },
+            {
+                id: "STU009",
+                firstName: "Chenda",
+                lastName: "Ny",
+                email: "chenda.ny@email.com",
+                phone: "+855 12 345 009",
+                gender: "Female",
+                grade: "Grade 12",
+                section: "Section B",
+                city: "Kampot",
+                academicYear: "2024-2025"
+            },
+            {
+                id: "STU010",
+                firstName: "Rithy",
+                lastName: "Ouk",
+                email: "rithy.ouk@email.com",
+                phone: "+855 12 345 010",
+                gender: "Male",
+                grade: "Grade 10",
+                section: "Section A",
+                city: "Kep",
+                academicYear: "2024-2025"
+            },
+            {
+                id: "STU011",
+                firstName: "Sreypov",
+                lastName: "Heng",
+                email: "sreypov.heng@email.com",
+                phone: "+855 12 345 011",
+                gender: "Female",
+                grade: "Grade 8",
+                section: "Section C",
+                city: "Preah Vihear",
+                academicYear: "2024-2025"
+            },
+            {
+                id: "STU012",
+                firstName: "Bunthoeun",
+                lastName: "Ros",
+                email: "bunthoeun.ros@email.com",
+                phone: "+855 12 345 012",
+                gender: "Male",
+                grade: "Grade 11",
+                section: "Section B",
+                city: "Pursat",
+                academicYear: "2024-2025"
+            },
+            {
+                id: "STU013",
+                firstName: "Channary",
+                lastName: "Vong",
+                email: "channary.vong@email.com",
+                phone: "+855 12 345 013",
+                gender: "Female",
+                grade: "Grade 9",
+                section: "Section A",
+                city: "Prey Veng",
+                academicYear: "2024-2025"
+            },
+            {
+                id: "STU014",
+                firstName: "Virak",
+                lastName: "Tep",
+                email: "virak.tep@email.com",
+                phone: "+855 12 345 014",
+                gender: "Male",
+                grade: "Grade 12",
+                section: "Section C",
+                city: "Ratanakiri",
+                academicYear: "2024-2025"
+            },
+            {
+                id: "STU015",
+                firstName: "Bopha",
+                lastName: "Yim",
+                email: "bopha.yim@email.com",
+                phone: "+855 12 345 015",
+                gender: "Female",
+                grade: "Grade 10",
+                section: "Section B",
+                city: "Stung Treng",
+                academicYear: "2024-2025"
+            }
         ];
 
         // Pagination variables
         let currentPage = 1;
-        let rowsPerPage = 3;
+        let rowsPerPage = 5;
         let totalPages = Math.ceil(studentsData.length / rowsPerPage);
 
         // Initialize pagination
@@ -398,18 +644,40 @@
                 const student = studentsData[i];
                 const row = document.createElement('tr');
                 
+                // Get initials for avatar
+                const initials = student.firstName.charAt(0) + student.lastName.charAt(0);
+                
                 row.innerHTML = `
                     <td>
                         <span class="student-id">${student.id}</span>
                     </td>
                     <td>
-                        <span class="student-name">${student.name}</span>
+                        <div class="d-flex align-items-center">
+                            <div class="student-avatar">${initials}</div>
+                            <div>
+                                <div class="student-name">${student.firstName} ${student.lastName}</div>
+                                <span class="gender-badge ${student.gender.toLowerCase()}">${student.gender}</span>
+                            </div>
+                        </div>
                     </td>
                     <td>
-                        <span class="gender-badge">${student.gender}</span>
+                        <div class="contact-info">
+                            <div><i class="fas fa-envelope me-1"></i>${student.email}</div>
+                            <div><i class="fas fa-phone me-1"></i>${student.phone}</div>
+                        </div>
                     </td>
                     <td>
-                        <span class="address-text">${student.address}</span>
+                        <div>
+                            <span class="grade-badge">${student.grade}</span>
+                            <div class="mt-1">
+                                <small class="text-muted">${student.section} • ${student.academicYear}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="address-text">
+                            <i class="fas fa-map-marker-alt me-1"></i>${student.city}
+                        </span>
                     </td>
                 `;
                 
