@@ -322,16 +322,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-home me-1"></i>Dashboard</a>
+                        <a class="nav-link active" href="index.html"><i class="fas fa-users me-1"></i>Students</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="fas fa-users me-1"></i>Students</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="create-student.html"><i class="fas fa-plus me-1"></i>Create</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-cog me-1"></i>Settings</a>
+                        <a class="nav-link" href="create.html"><i class="fas fa-plus me-1"></i>Create</a>
                     </li>
                 </ul>
             </div>
@@ -349,7 +343,7 @@
         <div class="stats-row fade-in">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 class="text-white">Student List</h4>
-                <a href="create-student.html" class="btn btn-success">
+                <a href="create.html" class="btn btn-success">
                     <i class="fas fa-plus me-2"></i>Add New Student
                 </a>
             </div>
@@ -393,7 +387,7 @@
             <div class="pagination-container">
                 <nav aria-label="Student pagination">
                     <ul class="pagination justify-content-center mb-0" id="paginationControls">
-                        <!-- Pagination buttons will be dynamically generated here -->
+                        
                     </ul>
                 </nav>
             </div>
@@ -734,7 +728,7 @@
             for (let i = startPage; i <= endPage; i++) {
                 const pageItem = document.createElement('li');
                 pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
-                pageItem.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
+                pageItem.innerHTML = `<a class="page-link" href="javascript:void()" onclick="changePage(${i})">${i}</a>`;
                 paginationControls.appendChild(pageItem);
             }
             
@@ -749,7 +743,7 @@
                 
                 const lastItem = document.createElement('li');
                 lastItem.className = 'page-item';
-                lastItem.innerHTML = `<a class="page-link" href="#" onclick="changePage(${totalPages})">${totalPages}</a>`;
+                lastItem.innerHTML = `<a class="page-link" href="javascript:void()" onclick="changePage(${totalPages})">${totalPages}</a>`;
                 paginationControls.appendChild(lastItem);
             }
             
@@ -757,7 +751,7 @@
             const nextItem = document.createElement('li');
             nextItem.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
             nextItem.innerHTML = `
-                <a class="page-link" href="#" onclick="changePage(${currentPage + 1})">
+                <a class="page-link" href="javascript:void()" onclick="changePage(${currentPage + 1})">
                     <i class="fas fa-chevron-right"></i>
                 </a>
             `;
