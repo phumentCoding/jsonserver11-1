@@ -182,6 +182,72 @@
             font-weight: 500;
         }
 
+        /* Search Styles */
+        .search-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-input {
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Action Button Styles */
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin: 0 0.2rem;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-show {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-show:hover {
+            background: #138496;
+            transform: translateY(-2px);
+        }
+
+        .btn-edit {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-edit:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .btn-remove {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-remove:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
         .footer {
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
@@ -296,6 +362,12 @@
                 padding: 0.4rem 0.6rem;
                 font-size: 0.9rem;
             }
+
+            .action-btn {
+                padding: 0.3rem 0.5rem;
+                font-size: 0.7rem;
+                margin: 0.1rem;
+            }
         }
 
         .fade-in {
@@ -312,9 +384,9 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="index.html">
                 <i class="fas fa-graduation-cap me-2"></i>
-                EduDash
+                ETEC CENTER
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -349,6 +421,25 @@
             </div>
         </div>
 
+        <!-- Search Container -->
+        <div class="search-container fade-in">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-text" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none;">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" id="searchInput" class="form-control search-input" placeholder="Search by name, email, ID, or location..." style="border-left: none;">
+                    </div>
+                </div>
+                <div class="col-md-4 mt-3 mt-md-0">
+                    <button class="btn btn-outline-secondary w-100" onclick="clearSearch()">
+                        <i class="fas fa-times me-2"></i>Clear Search
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Table Container -->
         <div class="table-container fade-in">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -375,6 +466,7 @@
                             <th scope="col"><i class="fas fa-envelope me-2"></i>Contact</th>
                             <th scope="col"><i class="fas fa-graduation-cap me-2"></i>Academic</th>
                             <th scope="col"><i class="fas fa-map-marker-alt me-2"></i>Location</th>
+                            <th scope="col"><i class="fas fa-cogs me-2"></i>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="studentTableBody">
@@ -604,10 +696,11 @@
             }
         ];
 
-        // Pagination variables
+        // Pagination and search variables
         let currentPage = 1;
         let rowsPerPage = 5;
-        let totalPages = Math.ceil(studentsData.length / rowsPerPage);
+        let filteredStudents = [...studentsData];
+        let totalPages = Math.ceil(filteredStudents.length / rowsPerPage);
 
         // Initialize pagination
         document.addEventListener('DOMContentLoaded', function() {
@@ -618,24 +711,80 @@
             document.getElementById('rowsPerPage').addEventListener('change', function() {
                 rowsPerPage = parseInt(this.value);
                 currentPage = 1;
-                totalPages = Math.ceil(studentsData.length / rowsPerPage);
+                totalPages = Math.ceil(filteredStudents.length / rowsPerPage);
                 updateTable();
                 updatePagination();
             });
+
+            // Event listener for search
+            document.getElementById('searchInput').addEventListener('input', function() {
+                performSearch();
+            });
         });
+
+        // Search functionality
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                filteredStudents = [...studentsData];
+            } else {
+                filteredStudents = studentsData.filter(student => {
+                    return student.id.toLowerCase().includes(searchTerm) ||
+                           student.firstName.toLowerCase().includes(searchTerm) ||
+                           student.lastName.toLowerCase().includes(searchTerm) ||
+                           student.email.toLowerCase().includes(searchTerm) ||
+                           student.phone.toLowerCase().includes(searchTerm) ||
+                           student.city.toLowerCase().includes(searchTerm) ||
+                           student.grade.toLowerCase().includes(searchTerm) ||
+                           student.section.toLowerCase().includes(searchTerm);
+                });
+            }
+            
+            currentPage = 1;
+            totalPages = Math.ceil(filteredStudents.length / rowsPerPage);
+            updateTable();
+            updatePagination();
+        }
+
+        // Clear search
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            filteredStudents = [...studentsData];
+            currentPage = 1;
+            totalPages = Math.ceil(filteredStudents.length / rowsPerPage);
+            updateTable();
+            updatePagination();
+        }
 
         // Update table content
         function updateTable() {
             const tableBody = document.getElementById('studentTableBody');
             const startIndex = (currentPage - 1) * rowsPerPage;
-            const endIndex = Math.min(startIndex + rowsPerPage, studentsData.length);
+            const endIndex = Math.min(startIndex + rowsPerPage, filteredStudents.length);
             
             // Clear existing rows
             tableBody.innerHTML = '';
             
+            if (filteredStudents.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center py-4">
+                            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No students found</h5>
+                            <p class="text-muted">Try adjusting your search criteria</p>
+                        </td>
+                    </tr>
+                `;
+                document.getElementById('startRecord').textContent = '0';
+                document.getElementById('endRecord').textContent = '0';
+                document.getElementById('totalRecords').textContent = '0';
+                return;
+            }
+            
             // Add rows for current page
             for (let i = startIndex; i < endIndex; i++) {
-                const student = studentsData[i];
+                const student = filteredStudents[i];
                 const row = document.createElement('tr');
                 
                 // Get initials for avatar
@@ -673,6 +822,19 @@
                             <i class="fas fa-map-marker-alt me-1"></i>${student.city}
                         </span>
                     </td>
+                    <td>
+                        <div class="d-flex flex-wrap">
+                            <button class="btn action-btn btn-show" onclick="showStudent('${student.id}')" title="View Details">
+                                <i class="fas fa-eye"></i> Show
+                            </button>
+                            <button class="btn action-btn btn-edit" onclick="editStudent('${student.id}')" title="Edit Student">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn action-btn btn-remove" onclick="removeStudent('${student.id}')" title="Remove Student">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    </td>
                 `;
                 
                 tableBody.appendChild(row);
@@ -681,7 +843,32 @@
             // Update pagination info
             document.getElementById('startRecord').textContent = startIndex + 1;
             document.getElementById('endRecord').textContent = endIndex;
-            document.getElementById('totalRecords').textContent = studentsData.length;
+            document.getElementById('totalRecords').textContent = filteredStudents.length;
+        }
+
+        // Action functions
+        function showStudent(studentId) {
+            const student = studentsData.find(s => s.id === studentId);
+            if (student) {
+                alert(`Student Details:\n\nID: ${student.id}\nName: ${student.firstName} ${student.lastName}\nEmail: ${student.email}\nPhone: ${student.phone}\nGender: ${student.gender}\nGrade: ${student.grade}\nSection: ${student.section}\nCity: ${student.city}\nAcademic Year: ${student.academicYear}`);
+            }
+        }
+
+        function editStudent(studentId) {
+            alert(`Edit functionality for student ${studentId} would redirect to edit page.`);
+            // In a real application, this would redirect to an edit form
+            // window.location.href = `edit-student.html?id=${studentId}`;
+        }
+
+        function removeStudent(studentId) {
+            if (confirm('Are you sure you want to remove this student? This action cannot be undone.')) {
+                const index = studentsData.findIndex(s => s.id === studentId);
+                if (index > -1) {
+                    studentsData.splice(index, 1);
+                    performSearch(); // Refresh the filtered results
+                    alert('Student removed successfully!');
+                }
+            }
         }
 
         // Update pagination controls
@@ -689,11 +876,15 @@
             const paginationControls = document.getElementById('paginationControls');
             paginationControls.innerHTML = '';
             
+            if (totalPages <= 1) {
+                return;
+            }
+            
             // Previous button
             const prevItem = document.createElement('li');
             prevItem.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
             prevItem.innerHTML = `
-                <a class="page-link" href="#" onclick="changePage(${currentPage - 1})">
+                <a class="page-link" href="javascript:void(0)" onclick="changePage(${currentPage - 1})">
                     <i class="fas fa-chevron-left"></i>
                 </a>
             `;
@@ -713,7 +904,7 @@
             if (startPage > 1) {
                 const firstItem = document.createElement('li');
                 firstItem.className = 'page-item';
-                firstItem.innerHTML = `<a class="page-link" href="#" onclick="changePage(1)">1</a>`;
+                firstItem.innerHTML = `<a class="page-link" href="javascript:void(0)" onclick="changePage(1)">1</a>`;
                 paginationControls.appendChild(firstItem);
                 
                 if (startPage > 2) {
@@ -728,7 +919,7 @@
             for (let i = startPage; i <= endPage; i++) {
                 const pageItem = document.createElement('li');
                 pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
-                pageItem.innerHTML = `<a class="page-link" href="javascript:void()" onclick="changePage(${i})">${i}</a>`;
+                pageItem.innerHTML = `<a class="page-link" href="javascript:void(0)" onclick="changePage(${i})">${i}</a>`;
                 paginationControls.appendChild(pageItem);
             }
             
@@ -743,7 +934,7 @@
                 
                 const lastItem = document.createElement('li');
                 lastItem.className = 'page-item';
-                lastItem.innerHTML = `<a class="page-link" href="javascript:void()" onclick="changePage(${totalPages})">${totalPages}</a>`;
+                lastItem.innerHTML = `<a class="page-link" href="javascript:void(0)" onclick="changePage(${totalPages})">${totalPages}</a>`;
                 paginationControls.appendChild(lastItem);
             }
             
@@ -751,7 +942,7 @@
             const nextItem = document.createElement('li');
             nextItem.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
             nextItem.innerHTML = `
-                <a class="page-link" href="javascript:void()" onclick="changePage(${currentPage + 1})">
+                <a class="page-link" href="javascript:void(0)" onclick="changePage(${currentPage + 1})">
                     <i class="fas fa-chevron-right"></i>
                 </a>
             `;
