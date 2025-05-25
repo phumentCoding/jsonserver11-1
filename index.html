@@ -248,6 +248,38 @@
             transform: translateY(-2px);
         }
 
+        /* Loading Styles */
+        .loading-container {
+            text-align: center;
+            padding: 3rem;
+            color: white;
+        }
+
+        .loading-spinner {
+            width: 3rem;
+            height: 3rem;
+            border: 0.3rem solid rgba(255, 255, 255, 0.3);
+            border-top: 0.3rem solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-container {
+            background: rgba(220, 53, 69, 0.1);
+            border: 2px solid #dc3545;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            color: #721c24;
+            margin: 2rem 0;
+        }
+
         .footer {
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
@@ -411,77 +443,97 @@
             <p class="text-muted mb-0">Complete student information database</p>
         </div>
 
-        <!-- Statistics -->
-        <div class="stats-row fade-in">
-            <div class="d-flex justify-content-between align-items-center">
-                <h4 class="text-white">Student List</h4>
-                <a href="create.html" class="btn btn-success">
-                    <i class="fas fa-plus me-2"></i>Add New Student
-                </a>
-            </div>
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-container">
+            <div class="loading-spinner"></div>
+            <h4>Loading Students...</h4>
+            <p>Please wait while we fetch the data</p>
         </div>
 
-        <!-- Search Container -->
-        <div class="search-container fade-in">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <div class="input-group">
-                        <span class="input-group-text" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none;">
-                            <i class="fas fa-search"></i>
-                        </span>
-                        <input type="text" id="searchInput" class="form-control search-input" placeholder="Search by name, email, ID, or location..." style="border-left: none;">
+        <!-- Error State -->
+        <div id="errorState" class="error-container d-none">
+            <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+            <h4>Error Loading Data</h4>
+            <p id="errorMessage">Unable to fetch student data. Please check your connection and try again.</p>
+            <button class="btn btn-danger" onclick="loadStudentData()">
+                <i class="fas fa-redo me-2"></i>Retry
+            </button>
+        </div>
+
+        <!-- Main Content (Hidden until data loads) -->
+        <div id="mainContent" class="d-none">
+            <!-- Statistics -->
+            <div class="stats-row fade-in">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="text-white">Student List</h4>
+                    <a href="create.html" class="btn btn-success">
+                        <i class="fas fa-plus me-2"></i>Add New Student
+                    </a>
+                </div>
+            </div>
+
+            <!-- Search Container -->
+            <div class="search-container fade-in">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <span class="input-group-text" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none;">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <input type="text" id="searchInput" class="form-control search-input" placeholder="Search by name, email, ID, or location..." style="border-left: none;">
+                        </div>
+                    </div>
+                    <div class="col-md-4 mt-3 mt-md-0">
+                        <button class="btn btn-outline-secondary w-100" onclick="clearSearch()">
+                            <i class="fas fa-times me-2"></i>Clear Search
+                        </button>
                     </div>
                 </div>
-                <div class="col-md-4 mt-3 mt-md-0">
-                    <button class="btn btn-outline-secondary w-100" onclick="clearSearch()">
-                        <i class="fas fa-times me-2"></i>Clear Search
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Table Container -->
-        <div class="table-container fade-in">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="pagination-info">
-                    Showing <span id="startRecord">1</span> to <span id="endRecord">5</span> of <span id="totalRecords">15</span> students
-                </div>
-                <div class="d-flex align-items-center">
-                    <label for="rowsPerPage" class="me-2 text-muted">Show:</label>
-                    <select id="rowsPerPage" class="rows-per-page">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                    </select>
-                </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col"><i class="fas fa-hashtag me-2"></i>ID</th>
-                            <th scope="col"><i class="fas fa-user me-2"></i>Student</th>
-                            <th scope="col"><i class="fas fa-envelope me-2"></i>Contact</th>
-                            <th scope="col"><i class="fas fa-graduation-cap me-2"></i>Academic</th>
-                            <th scope="col"><i class="fas fa-map-marker-alt me-2"></i>Location</th>
-                            <th scope="col"><i class="fas fa-cogs me-2"></i>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="studentTableBody">
-                        <!-- Table rows will be dynamically generated here -->
-                    </tbody>
-                </table>
-            </div>
+            <!-- Table Container -->
+            <div class="table-container fade-in">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="pagination-info">
+                        Showing <span id="startRecord">0</span> to <span id="endRecord">0</span> of <span id="totalRecords">0</span> students
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <label for="rowsPerPage" class="me-2 text-muted">Show:</label>
+                        <select id="rowsPerPage" class="rows-per-page">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                </div>
 
-            <!-- Pagination Controls -->
-            <div class="pagination-container">
-                <nav aria-label="Student pagination">
-                    <ul class="pagination justify-content-center mb-0" id="paginationControls">
-                        
-                    </ul>
-                </nav>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col"><i class="fas fa-hashtag me-2"></i>ID</th>
+                                <th scope="col"><i class="fas fa-user me-2"></i>Student</th>
+                                <th scope="col"><i class="fas fa-envelope me-2"></i>Contact</th>
+                                <th scope="col"><i class="fas fa-graduation-cap me-2"></i>Academic</th>
+                                <th scope="col"><i class="fas fa-map-marker-alt me-2"></i>Location</th>
+                                <th scope="col"><i class="fas fa-cogs me-2"></i>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody">
+                            <!-- Table rows will be dynamically generated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination Controls -->
+                <div class="pagination-container">
+                    <nav aria-label="Student pagination">
+                        <ul class="pagination justify-content-center mb-0" id="paginationControls">
+                            
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
 
@@ -512,201 +564,72 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Enhanced student data matching create form structure
-        const studentsData = [
-            {
-                id: "STU001",
-                firstName: "Lyhor",
-                lastName: "Chea",
-                email: "lyhor.chea@email.com",
-                phone: "+855 12 345 001",
-                gender: "Male",
-                grade: "Grade 10",
-                section: "Section A",
-                city: "Tbong Khmum",
-                academicYear: "2024-2025"
-            },
-            {
-                id: "STU002",
-                firstName: "Sovann",
-                lastName: "Kem",
-                email: "sovann.kem@email.com",
-                phone: "+855 12 345 002",
-                gender: "Male",
-                grade: "Grade 11",
-                section: "Section B",
-                city: "Kompong Thom",
-                academicYear: "2024-2025"
-            },
-            {
-                id: "STU003",
-                firstName: "Makara",
-                lastName: "Pich",
-                email: "makara.pich@email.com",
-                phone: "+855 12 345 003",
-                gender: "Male",
-                grade: "Grade 9",
-                section: "Section A",
-                city: "Takev",
-                academicYear: "2024-2025"
-            },
-            {
-                id: "STU004",
-                firstName: "Khim",
-                lastName: "Sao",
-                email: "khim.sao@email.com",
-                phone: "+855 12 345 004",
-                gender: "Male",
-                grade: "Grade 12",
-                section: "Section C",
-                city: "Svay Rieng",
-                academicYear: "2024-2025"
-            },
-            {
-                id: "STU005",
-                firstName: "Sing",
-                lastName: "Mao",
-                email: "sing.mao@email.com",
-                phone: "+855 12 345 005",
-                gender: "Male",
-                grade: "Grade 8",
-                section: "Section A",
-                city: "Kondal",
-                academicYear: "2024-2025"
-            },
-            {
-                id: "STU006",
-                firstName: "Dara",
-                lastName: "Sok",
-                email: "dara.sok@email.com",
-                phone: "+855 12 345 006",
-                gender: "Male",
-                grade: "Grade 10",
-                section: "Section B",
-                city: "Phnom Penh",
-                academicYear: "2024-2025"
-            },
-            {
-                id: "STU007",
-                firstName: "Sophea",
-                lastName: "Chan",
-                email: "sophea.chan@email.com",
-                phone: "+855 12 345 007",
-                gender: "Female",
-                grade: "Grade 11",
-                section: "Section A",
-                city: "Siem Reap",
-                academicYear: "2024-2025"
-            },
-            {
-                id: "STU008",
-                firstName: "Pisach",
-                lastName: "Lim",
-                email: "pisach.lim@email.com",
-                phone: "+855 12 345 008",
-                gender: "Male",
-                grade: "Grade 9",
-                section: "Section C",
-                city: "Battambang",
-                academicYear: "2024-2025"
-            },
-            {
-                id: "STU009",
-                firstName: "Chenda",
-                lastName: "Ny",
-                email: "chenda.ny@email.com",
-                phone: "+855 12 345 009",
-                gender: "Female",
-                grade: "Grade 12",
-                section: "Section B",
-                city: "Kampot",
-                academicYear: "2024-2025"
-            },
-            {
-                id: "STU010",
-                firstName: "Rithy",
-                lastName: "Ouk",
-                email: "rithy.ouk@email.com",
-                phone: "+855 12 345 010",
-                gender: "Male",
-                grade: "Grade 10",
-                section: "Section A",
-                city: "Kep",
-                academicYear: "2024-2025"
-            },
-            {
-                id: "STU011",
-                firstName: "Sreypov",
-                lastName: "Heng",
-                email: "sreypov.heng@email.com",
-                phone: "+855 12 345 011",
-                gender: "Female",
-                grade: "Grade 8",
-                section: "Section C",
-                city: "Preah Vihear",
-                academicYear: "2024-2025"
-            },
-            {
-                id: "STU012",
-                firstName: "Bunthoeun",
-                lastName: "Ros",
-                email: "bunthoeun.ros@email.com",
-                phone: "+855 12 345 012",
-                gender: "Male",
-                grade: "Grade 11",
-                section: "Section B",
-                city: "Pursat",
-                academicYear: "2024-2025"
-            },
-            {
-                id: "STU013",
-                firstName: "Channary",
-                lastName: "Vong",
-                email: "channary.vong@email.com",
-                phone: "+855 12 345 013",
-                gender: "Female",
-                grade: "Grade 9",
-                section: "Section A",
-                city: "Prey Veng",
-                academicYear: "2024-2025"
-            },
-            {
-                id: "STU014",
-                firstName: "Virak",
-                lastName: "Tep",
-                email: "virak.tep@email.com",
-                phone: "+855 12 345 014",
-                gender: "Male",
-                grade: "Grade 12",
-                section: "Section C",
-                city: "Ratanakiri",
-                academicYear: "2024-2025"
-            },
-            {
-                id: "STU015",
-                firstName: "Bopha",
-                lastName: "Yim",
-                email: "bopha.yim@email.com",
-                phone: "+855 12 345 015",
-                gender: "Female",
-                grade: "Grade 10",
-                section: "Section B",
-                city: "Stung Treng",
-                academicYear: "2024-2025"
-            }
-        ];
-
-        // Pagination and search variables
+        // Global variables for student data
+        let studentsData = [];
+        let filteredStudents = [];
         let currentPage = 1;
         let rowsPerPage = 5;
-        let filteredStudents = [...studentsData];
-        let totalPages = Math.ceil(filteredStudents.length / rowsPerPage);
+        let totalPages = 0;
 
-        // Initialize pagination
-        document.addEventListener('DOMContentLoaded', function() {
-            updateTable();
-            updatePagination();
-            
+        // Fetch students data from API
+        async function fetchStudentsData() {
+            try {
+                const response = await fetch('http://localhost:3000/students', {
+                    method: "GET",
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                return data;
+
+            } catch (error) {
+                console.error('Error fetching students:', error);
+                throw error;
+            }
+        }
+
+        // Load student data and initialize the application
+        async function loadStudentData() {
+            try {
+                // Show loading state
+                document.getElementById('loadingState').classList.remove('d-none');
+                document.getElementById('errorState').classList.add('d-none');
+                document.getElementById('mainContent').classList.add('d-none');
+
+                // Fetch data
+                const data = await fetchStudentsData();
+                
+                // Store data globally
+                studentsData = Array.isArray(data) ? data : [];
+
+                filteredStudents = [...studentsData];
+                
+                // Calculate pagination
+                totalPages = Math.ceil(filteredStudents.length / rowsPerPage);
+                
+                // Hide loading and show content
+                document.getElementById('loadingState').classList.add('d-none');
+                document.getElementById('mainContent').classList.remove('d-none');
+                
+                // Initialize table
+                updateTable();
+                updatePagination();
+                
+                // Setup event listeners
+                setupEventListeners();
+
+            } catch (error) {
+                // Show error state
+                document.getElementById('loadingState').classList.add('d-none');
+                document.getElementById('errorState').classList.remove('d-none');
+                document.getElementById('errorMessage').textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
             // Event listener for rows per page change
             document.getElementById('rowsPerPage').addEventListener('change', function() {
                 rowsPerPage = parseInt(this.value);
@@ -720,7 +643,7 @@
             document.getElementById('searchInput').addEventListener('input', function() {
                 performSearch();
             });
-        });
+        }
 
         // Search functionality
         function performSearch() {
@@ -730,14 +653,14 @@
                 filteredStudents = [...studentsData];
             } else {
                 filteredStudents = studentsData.filter(student => {
-                    return student.id.toLowerCase().includes(searchTerm) ||
-                           student.firstName.toLowerCase().includes(searchTerm) ||
-                           student.lastName.toLowerCase().includes(searchTerm) ||
-                           student.email.toLowerCase().includes(searchTerm) ||
-                           student.phone.toLowerCase().includes(searchTerm) ||
-                           student.city.toLowerCase().includes(searchTerm) ||
-                           student.grade.toLowerCase().includes(searchTerm) ||
-                           student.section.toLowerCase().includes(searchTerm);
+                    return (student.id && student.id.toLowerCase().includes(searchTerm)) ||
+                           (student.firstName && student.firstName.toLowerCase().includes(searchTerm)) ||
+                           (student.lastName && student.lastName.toLowerCase().includes(searchTerm)) ||
+                           (student.email && student.email.toLowerCase().includes(searchTerm)) ||
+                           (student.phone && student.phone.toLowerCase().includes(searchTerm)) ||
+                           (student.city && student.city.toLowerCase().includes(searchTerm)) ||
+                           (student.grade && student.grade.toLowerCase().includes(searchTerm)) ||
+                           (student.section && student.section.toLowerCase().includes(searchTerm));
                 });
             }
             
@@ -787,39 +710,41 @@
                 const student = filteredStudents[i];
                 const row = document.createElement('tr');
                 
-                // Get initials for avatar
-                const initials = student.firstName.charAt(0) + student.lastName.charAt(0);
+                // Get initials for avatar (with fallback)
+                const firstName = student.firstName || '';
+                const lastName = student.lastName || '';
+                const initials = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase() || '??';
                 
                 row.innerHTML = `
                     <td>
-                        <span class="student-id">${student.id}</span>
+                        <span class="student-id">${student.id || 'N/A'}</span>
                     </td>
                     <td>
                         <div class="d-flex align-items-center">
                             <div class="student-avatar">${initials}</div>
                             <div>
-                                <div class="student-name">${student.firstName} ${student.lastName}</div>
-                                <span class="gender-badge ${student.gender.toLowerCase()}">${student.gender}</span>
+                                <div class="student-name">${firstName} ${lastName}</div>
+                                <span class="gender-badge ${(student.gender || 'unknown').toLowerCase()}">${student.gender || 'N/A'}</span>
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="contact-info">
-                            <div><i class="fas fa-envelope me-1"></i>${student.email}</div>
-                            <div><i class="fas fa-phone me-1"></i>${student.phone}</div>
+                            <div><i class="fas fa-envelope me-1"></i>${student.email || 'N/A'}</div>
+                            <div><i class="fas fa-phone me-1"></i>${student.phone || 'N/A'}</div>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <span class="grade-badge">${student.grade}</span>
+                            <span class="grade-badge">${student.grade || 'N/A'}</span>
                             <div class="mt-1">
-                                <small class="text-muted">${student.section} • ${student.academicYear}</small>
+                                <small class="text-muted">${student.section || 'N/A'} • ${student.academicYear || 'N/A'}</small>
                             </div>
                         </div>
                     </td>
                     <td>
                         <span class="address-text">
-                            <i class="fas fa-map-marker-alt me-1"></i>${student.city}
+                            <i class="fas fa-map-marker-alt me-1"></i>${student.city || 'N/A'}
                         </span>
                     </td>
                     <td>
@@ -850,7 +775,7 @@
         function showStudent(studentId) {
             const student = studentsData.find(s => s.id === studentId);
             if (student) {
-                alert(`Student Details:\n\nID: ${student.id}\nName: ${student.firstName} ${student.lastName}\nEmail: ${student.email}\nPhone: ${student.phone}\nGender: ${student.gender}\nGrade: ${student.grade}\nSection: ${student.section}\nCity: ${student.city}\nAcademic Year: ${student.academicYear}`);
+                alert(`Student Details:\n\nID: ${student.id || 'N/A'}\nName: ${student.firstName || ''} ${student.lastName || ''}\nEmail: ${student.email || 'N/A'}\nPhone: ${student.phone || 'N/A'}\nGender: ${student.gender || 'N/A'}\nGrade: ${student.grade || 'N/A'}\nSection: ${student.section || 'N/A'}\nCity: ${student.city || 'N/A'}\nAcademic Year: ${student.academicYear || 'N/A'}`);
             }
         }
 
@@ -860,13 +785,27 @@
             // window.location.href = `edit-student.html?id=${studentId}`;
         }
 
-        function removeStudent(studentId) {
+        async function removeStudent(studentId) {
             if (confirm('Are you sure you want to remove this student? This action cannot be undone.')) {
-                const index = studentsData.findIndex(s => s.id === studentId);
-                if (index > -1) {
-                    studentsData.splice(index, 1);
-                    performSearch(); // Refresh the filtered results
-                    alert('Student removed successfully!');
+                try {
+                    // Make API call to delete student
+                    const response = await fetch(`http://localhost:3000/students/${studentId}`, {
+                        method: 'DELETE',
+                    });
+
+                    if (response.ok) {
+                        // Remove from local data
+                        const index = studentsData.findIndex(s => s.id === studentId);
+                        if (index > -1) {
+                            studentsData.splice(index, 1);
+                            performSearch(); // Refresh the filtered results
+                            alert('Student removed successfully!');
+                        }
+                    } else {
+                        throw new Error('Failed to delete student');
+                    }
+                } catch (error) {
+                    alert('Error removing student: ' + error.message);
                 }
             }
         }
@@ -965,6 +904,11 @@
                 block: 'start'
             });
         }
+
+        // Initialize the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStudentData();
+        });
     </script>
 </body>
 </html>

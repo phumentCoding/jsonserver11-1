@@ -1,42 +1,185 @@
 {
     "students" : [
         {
-            "id" : "1",
-            "name" : "Lyhor",
-            "gender" : "Male",
-            "address"  : "Tbong Khmum"
+          "id": "STU001",
+          "firstName": "Lyhor",
+          "lastName": "Chea",
+          "email": "lyhor.chea@email.com",
+          "phone": "+855 12 345 001",
+          "gender": "Male",
+          "grade": "Grade 10",
+          "section": "Section A",
+          "city": "Tbong Khmum",
+          "academicYear": "2024-2025"
         },
         {
-            "id" : "2",
-            "name" : "Sovann",
-            "gender" : "Male",
-            "address"  : "Kompong Thom"
+          "id": "STU002",
+          "firstName": "Sovann",
+          "lastName": "Kem",
+          "email": "sovann.kem@email.com",
+          "phone": "+855 12 345 002",
+          "gender": "Male",
+          "grade": "Grade 11",
+          "section": "Section B",
+          "city": "Kompong Thom",
+          "academicYear": "2024-2025"
         },
         {
-           "id" : "3",
-           "name" : "Makara",
-           "gender" : "Male",
-           "address"  : "Takev" 
+          "id": "STU003",
+          "firstName": "Makara",
+          "lastName": "Pich",
+          "email": "makara.pich@email.com",
+          "phone": "+855 12 345 003",
+          "gender": "Male",
+          "grade": "Grade 9",
+          "section": "Section A",
+          "city": "Takev",
+          "academicYear": "2024-2025"
         },
         {
-           "id" : "4",
-           "name" : "Khim",
-           "gender" : "Male",
-           "address"  : "Svay Rieng" 
+          "id": "STU004",
+          "firstName": "Khim",
+          "lastName": "Sao",
+          "email": "khim.sao@email.com",
+          "phone": "+855 12 345 004",
+          "gender": "Male",
+          "grade": "Grade 12",
+          "section": "Section C",
+          "city": "Svay Rieng",
+          "academicYear": "2024-2025"
         },
         {
-            "id" : "5",
-            "name" : "Sing",
-            "gender" : "Male",
-            "address"  : "Kondal" 
-         }
-    ],
-    "teachers"  : [
+          "id": "STU005",
+          "firstName": "Sing",
+          "lastName": "Mao",
+          "email": "sing.mao@email.com",
+          "phone": "+855 12 345 005",
+          "gender": "Male",
+          "grade": "Grade 8",
+          "section": "Section A",
+          "city": "Kondal",
+          "academicYear": "2024-2025"
+        },
         {
-            "id" : "1",
-            "name" : "Phument",
-            "gender" : "Male",
-            "address"  : "Kompong Thom"
+          "id": "STU006",
+          "firstName": "Dara",
+          "lastName": "Sok",
+          "email": "dara.sok@email.com",
+          "phone": "+855 12 345 006",
+          "gender": "Male",
+          "grade": "Grade 10",
+          "section": "Section B",
+          "city": "Phnom Penh",
+          "academicYear": "2024-2025"
+        },
+        {
+          "id": "STU007",
+          "firstName": "Sophea",
+          "lastName": "Chan",
+          "email": "sophea.chan@email.com",
+          "phone": "+855 12 345 007",
+          "gender": "Female",
+          "grade": "Grade 11",
+          "section": "Section A",
+          "city": "Siem Reap",
+          "academicYear": "2024-2025"
+        },
+        {
+          "id": "STU008",
+          "firstName": "Pisach",
+          "lastName": "Lim",
+          "email": "pisach.lim@email.com",
+          "phone": "+855 12 345 008",
+          "gender": "Male",
+          "grade": "Grade 9",
+          "section": "Section C",
+          "city": "Battambang",
+          "academicYear": "2024-2025"
+        },
+        {
+          "id": "STU009",
+          "firstName": "Chenda",
+          "lastName": "Ny",
+          "email": "chenda.ny@email.com",
+          "phone": "+855 12 345 009",
+          "gender": "Female",
+          "grade": "Grade 12",
+          "section": "Section B",
+          "city": "Kampot",
+          "academicYear": "2024-2025"
+        },
+        {
+          "id": "STU010",
+          "firstName": "Rithy",
+          "lastName": "Ouk",
+          "email": "rithy.ouk@email.com",
+          "phone": "+855 12 345 010",
+          "gender": "Male",
+          "grade": "Grade 10",
+          "section": "Section A",
+          "city": "Kep",
+          "academicYear": "2024-2025"
+        },
+        {
+          "id": "STU011",
+          "firstName": "Sreypov",
+          "lastName": "Heng",
+          "email": "sreypov.heng@email.com",
+          "phone": "+855 12 345 011",
+          "gender": "Female",
+          "grade": "Grade 8",
+          "section": "Section C",
+          "city": "Preah Vihear",
+          "academicYear": "2024-2025"
+        },
+        {
+          "id": "STU012",
+          "firstName": "Bunthoeun",
+          "lastName": "Ros",
+          "email": "bunthoeun.ros@email.com",
+          "phone": "+855 12 345 012",
+          "gender": "Male",
+          "grade": "Grade 11",
+          "section": "Section B",
+          "city": "Pursat",
+          "academicYear": "2024-2025"
+        },
+        {
+          "id": "STU013",
+          "firstName": "Channary",
+          "lastName": "Vong",
+          "email": "channary.vong@email.com",
+          "phone": "+855 12 345 013",
+          "gender": "Female",
+          "grade": "Grade 9",
+          "section": "Section A",
+          "city": "Prey Veng",
+          "academicYear": "2024-2025"
+        },
+        {
+          "id": "STU014",
+          "firstName": "Virak",
+          "lastName": "Tep",
+          "email": "virak.tep@email.com",
+          "phone": "+855 12 345 014",
+          "gender": "Male",
+          "grade": "Grade 12",
+          "section": "Section C",
+          "city": "Ratanakiri",
+          "academicYear": "2024-2025"
+        },
+        {
+          "id": "STU015",
+          "firstName": "Bopha",
+          "lastName": "Yim",
+          "email": "bopha.yim@email.com",
+          "phone": "+855 12 345 015",
+          "gender": "Female",
+          "grade": "Grade 10",
+          "section": "Section B",
+          "city": "Stung Treng",
+          "academicYear": "2024-2025"
         }
-    ]
+      ]
+      
 }
